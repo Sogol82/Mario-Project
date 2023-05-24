@@ -20,7 +20,7 @@ public class EnterPage extends JFrame implements ActionListener {
         backgroundLabel.setIcon(background);
         backgroundLabel.setBounds(70,40,1420,915);
         ////////////////
-        ImageIcon icon = new ImageIcon("src/logoAndCloudsImages/super-mario-logo.png");
+        ImageIcon icon = new ImageIcon("src/main/java/logoAndCloudsImages/super-mario-logo.png");
         JLabel label1 = new JLabel();
         label1.setIcon(icon);
         label1.setFont(new Font("MV Boli",Font.BOLD,30));

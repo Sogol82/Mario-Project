@@ -19,7 +19,7 @@ public class Store extends JFrame implements ActionListener {
 
     public Store() {
         /////////////////background
-        ImageIcon background = new ImageIcon("src/logoAndCloudsImages/background.PNG");
+        ImageIcon background = new ImageIcon("src/main/java/logoAndCloudsImages/background.PNG");
         JLabel backgroundLabel = new JLabel();
         backgroundLabel.setIcon(background);
         backgroundLabel.setBounds(70,40,1420,915);
