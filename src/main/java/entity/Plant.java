@@ -10,12 +10,9 @@ import java.io.IOException;
 public class Plant extends Entity{
     int upHeight = 3 * Data.tileSize;
     int firstY;
-
     public int[] plantsTile;
     public int realX;
-
     boolean goingUp, goingDown, waiting;
-
     public Plant(int x, int y) {
         firstY = y;
         this.x = x;
@@ -26,7 +23,6 @@ public class Plant extends Entity{
         goingUp = true;
         spriteCounter = 0;
     }
-
     public void getPlantImage() {
         try {
             upR = ImageIO.read(getClass().getResourceAsStream("/enemies/Plaant.png"));
@@ -34,7 +30,6 @@ public class Plant extends Entity{
             e.printStackTrace();
         }
     }
-
 
     public void update() {
         if(goingUp) {
@@ -61,7 +56,6 @@ public class Plant extends Entity{
             }
         }
     }
-
 
     public void draw(Graphics2D g2 ,int xTile) {
         BufferedImage image = upR;

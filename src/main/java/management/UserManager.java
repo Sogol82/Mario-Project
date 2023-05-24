@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.HashMap;
 
 public class UserManager {
-    public static File users = new File("src/users/Users.txt");
+    public static File users = new File("src/main/java/users/Users.txt");
     public static boolean doesUserExist(String username) {
         FileReader f = null;
         try {
@@ -69,7 +69,7 @@ public class UserManager {
             bw1.write(username + "," + password + ",0,0,1;" + "\n");
             bw1.close();
 
-            File f1 = new File("src/users/"+username+".txt");
+            File f1 = new File("src/main/java/users/"+username+".txt");
             f1.createNewFile();
 
             FileWriter fw2 = new FileWriter(f1,true);

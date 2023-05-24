@@ -13,6 +13,7 @@ package pages;
         import java.awt.event.ActionEvent;
         import java.awt.event.ActionListener;
         import java.io.IOException;
+        import java.util.Objects;
 
 public class ChooseCharacterAndDifficulty extends JFrame implements ActionListener {
     int id = 1;
@@ -104,15 +105,23 @@ public class ChooseCharacterAndDifficulty extends JFrame implements ActionListen
         ImageIcon ghostImage = null;
         ImageIcon snakeImage = null;
         ImageIcon rabbitImage = null;
-        try {
-            marioImage = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/marioImages/bigMario.png")));
-            marioGreenImage = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/marioImages/bigMarioGreen.png")));
-            ghostImage = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/marioImages/bigGhost.png")));
-            snakeImage = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/marioImages/bigSnake.png")));
-            rabbitImage = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/marioImages/bigRabbit.png")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+////            marioImage = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("./src/main/java/marioImages/bigMario.png")));
+////            marioGreenImage = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("./src/main/java/marioImages/bigMarioGreen.png")));
+////            ghostImage = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("src/main/java/marioImages/bigGhost.png")));
+////            snakeImage = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("src/main/java/marioImages/bigSnake.png")));
+////            rabbitImage = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("src/main/java/marioImages/bigRabbit.png")));
+//
+//
+////            marioImage = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("src/main/resources/marioImages/bigMario.png")));
+////            marioImage = new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("resources/marioImages/bigMario.png"))));
+////            marioGreenImage = new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("./src/main/java/marioImages/bigMarioGreen.png"))));
+////            ghostImage = new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("src/main/java/marioImages/bigGhost.png"))));
+////            snakeImage = new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("src/main/java/marioImages/bigSnake.png"))));
+////            rabbitImage = new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("src/main/java/marioImages/bigRabbit.png"))));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         marioLabel = new JLabelPlus(marioImage,350);
         marioLabel.setBorder(BorderFactory.createLineBorder(Color.GREEN,3));
