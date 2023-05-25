@@ -162,7 +162,6 @@ public class Player extends Entity implements PlayerI{
                         yJump = y;
                         keyHandler.checkFirstTimeForYJump = false;
                     }
-
                     if(gp.collisionChecker.checkUp(this)) {
                         y -= jumpSpeed;
                         if(y <= yJump-jumpHeight) {

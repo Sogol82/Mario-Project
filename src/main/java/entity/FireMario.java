@@ -132,7 +132,7 @@ public class FireMario extends Player {
             } else if(keyHandler.leftPressed || keyHandler.rightPressed || keyHandler.jump || keyHandler.getDown) {
 
                 ///////////////////////////shot
-                shout();
+                shoot();
 
                 if(keyHandler.leftPressed) {
                     if(gp.collisionChecker.checkLeft(this)) {
@@ -208,7 +208,7 @@ public class FireMario extends Player {
                 }
             } else {
                 ///////////////////////////shot
-                shout();
+                shoot();
                 spriteNum = 1;
             }
 
@@ -255,12 +255,12 @@ public class FireMario extends Player {
             }
         }
     }
-    public void shout() {
-        if(keyHandler.shot) {
-            System.out.println();
+    public void shoot() {
+        if(!(gp.collisionChecker.gravity(this) && !keyHandler.jump && !keyHandler.getDown) &&
+        (keyHandler.shot && (direction.equals("right") || direction.equals("left"))) ) {
             shots.add(new Shot(screenX,y+(Data.tileSize/2),speed,direction));
-            keyHandler.shot = false;
         }
+        keyHandler.shot = false;
     }
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
