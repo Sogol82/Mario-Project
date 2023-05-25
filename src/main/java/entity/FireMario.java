@@ -97,6 +97,7 @@ public class FireMario extends Player {
         }
         if(!isDead) {
             if(keyHandler.goDownPipe) {
+                keyHandler.shot = false;
                 if(direction.equals("right") || direction.equals("left")) {
                     ///////////////////////////////////////////////////////
                     if(gp.collisionChecker.checkSecretPipe(this)) {

@@ -125,7 +125,6 @@ public class TileManager {
         int y = 0;
 
         while(levelColumn < Data.maxLevelCol && levelRow < Data.maxScreenRow) {
-
             ////////////// ba if
             if (gp.player.x < gp.player.screenX) {
                 int levelX = levelColumn * Data.tileSize;
