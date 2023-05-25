@@ -231,15 +231,34 @@ public class CollisionChecker {
     }
     public boolean checkLevelPassed(Entity entity) {
         checkTile(entity);
-
         int tileNum1 = gp.tileManager.mapTileNum[entityLeftCol][entityTopRow];
         int tileNum2 = gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow];
 
         if(tileNum1 == 11 || tileNum1 == 12 || tileNum2 == 12) {
             return true;
         }
-
         return false;
+    }
+    public void checkBlockCollision(Entity entity) {
+        //System.out.println("I am called");
+        checkTile(entity);
+        entityTopRow = (entitySolidTop - entity.jumpSpeed) / Data.tileSize;
+        int tileNum1 = gp.tileManager.mapTileNum[entityLeftCol][entityTopRow];
+        int tileNum2 = gp.tileManager.mapTileNum[entityRightCol][entityTopRow];
+
+        if (tileNum1 == 7) {
+            if(entitySolidLeft > (entityLeftCol*Data.tileSize) - (Data.tileSize/2) &&
+                    entitySolidLeft < (entityLeftCol*Data.tileSize) + (Data.tileSize/2)) {
+                gp.tileManager.mapTileNum[entityLeftCol][entityTopRow] = 9;
+            }
+        } else if (tileNum2 == 7) {
+            if(entitySolidRight > (entityRightCol*Data.tileSize) + (Data.tileSize/2) &&
+                    entitySolidRight < (entityRightCol*Data.tileSize) + (3*(Data.tileSize/2))) {
+                gp.tileManager.mapTileNum[entityRightCol][entityTopRow] = 9;
+            }
+
+        }
+
     }
 }
 
