@@ -214,11 +214,6 @@ public class Player extends Entity implements PlayerI{
 
             if(!keyHandler.goDownPipe) {
                 gp.collisionChecker.checkCoinCollision(this);
-                ///////////////////////////////////////////////////////////////
-                if( direction.equals("upRight") ||  direction.equals("upLeft")) {
-                    gp.collisionChecker.checkBlockCollision(this);
-                }
-
                 fallUpdate();
                 plantCollisionUpdate();
                 gravityUpdate();

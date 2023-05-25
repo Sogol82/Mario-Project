@@ -205,7 +205,9 @@ public class MegaMario extends Player {
             if(!keyHandler.goDownPipe) {
                 gp.collisionChecker.checkCoinCollision(this);
                 ///////////////////////////////////////////////////////////////
-                gp.collisionChecker.checkBlockCollision(this);
+                if( direction.equals("upRight") ||  direction.equals("upLeft")) {
+                    gp.collisionChecker.checkBlockCollision(this);
+                }
                 fallUpdate();
                 plantCollisionUpdate();
                 gravityUpdate();

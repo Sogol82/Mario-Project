@@ -204,8 +204,6 @@ public class MiniMario extends Player {
 
             if(!keyHandler.goDownPipe) {
                 gp.collisionChecker.checkCoinCollision(this);
-                ///////////////////////////////////////////////////////////////
-                gp.collisionChecker.checkBlockCollision(this);
                 fallUpdate();
                 plantCollisionUpdate();
                 gravityUpdate();
