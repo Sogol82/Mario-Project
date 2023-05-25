@@ -217,7 +217,7 @@ public class MegaMario extends Player {
             deadUpdate();
         }
     }
-    void fallUpdate() {
+    public void fallUpdate() {
         if(gp.collisionChecker.checkFall(this)) {
             this.isDead = true;
             deadUp = true;
@@ -230,7 +230,7 @@ public class MegaMario extends Player {
             gp.player = new MiniMario(this.gp,this.keyHandler,this.x,this.y+Data.tileSize,this.hearts);
         }
     }
-    void plantCollisionUpdate() {
+    public void plantCollisionUpdate() {
         for(Plant plant : gp.plants) {
             if(gp.collisionChecker.checkPlantCollision(this,plant)) {
                 this.isDead = true;
@@ -241,59 +241,5 @@ public class MegaMario extends Player {
             }
         }
     }
-    void gravityUpdate() {
-        if(gp.collisionChecker.gravity(this) && !keyHandler.jump && !keyHandler.getDown) {
-            y += jumpSpeed;
-            keyHandler.gravity = true;
-        } else if(!gp.collisionChecker.gravity(this) && !keyHandler.jump && !keyHandler.getDown) {
-            if(y % Data.tileSize != 0) {
-                y = ((y/ Data.tileSize)+1) * Data.tileSize;
-            }
-            keyHandler.gravity = false;
-        }
-    }
-    public void draw(Graphics2D g2) {
-        BufferedImage image = null;
-        switch(direction) {
-            case "right":
-                if(spriteNum == 1) {
-                    image = right1;
-                } else if(spriteNum == 2) {
-                    image = right2;
-                }
-                break;
-            case "left":
-                if(spriteNum == 1) {
-                    image = left1;
-                } else if(spriteNum == 2) {
-                    image = left2;
-                }
-                break;
-            case "upLeft":
-                image = upL;
-                break;
-            case "upRight":
-                image = upR;
-                break;
-            case "dead":
-                image = dead;
 
-        }
-        if(x < screenX) {
-            g2.drawImage(image, x, y, Data.tileSize, PHeight, null);
-
-            g2.setColor(ColorUIResource.red);
-            g2.drawRect(x + 2 * Data.scale,y + 2 * Data.scale,12 * Data.scale,PHeight - (2 * Data.scale));
-        } else if(x > Data.maxLevelWidth - Data.screenWidth + screenX) {
-            g2.drawImage(image, x - Data.maxLevelWidth + Data.screenWidth, y, Data.tileSize, PHeight, null);
-
-            g2.setColor(ColorUIResource.red);
-            g2.drawRect(x - Data.maxLevelWidth + Data.screenWidth + 2 * Data.scale,y + 2 * Data.scale,12 * Data.scale,PHeight - (2 * Data.scale));
-        } else {
-            g2.drawImage(image, screenX, y, Data.tileSize, PHeight, null);
-
-            g2.setColor(ColorUIResource.red);
-            g2.drawRect(screenX + 2 * Data.scale,y+2 * Data.scale,12 * Data.scale,PHeight - (2 * Data.scale));
-        }
-    }
 }

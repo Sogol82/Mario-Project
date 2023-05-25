@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Player extends Entity {
+public class Player extends Entity implements PlayerI{
     public final int screenX = Data.tileSize * 4;
     game.GamePanel gp;
     game.KeyHandler keyHandler;
@@ -227,7 +227,7 @@ public class Player extends Entity {
             deadUpdate();
         }
     }
-    void fallUpdate() {
+    public void fallUpdate() {
         if(gp.collisionChecker.checkFall(this)) {
             this.isDead = true;
             deadUp = true;
@@ -260,7 +260,7 @@ public class Player extends Entity {
             }
         }
     }
-    void plantCollisionUpdate() {
+    public void plantCollisionUpdate() {
         for(Plant plant : gp.plants) {
             if(gp.collisionChecker.checkPlantCollision(this,plant)) {
                 this.isDead = true;
@@ -270,7 +270,7 @@ public class Player extends Entity {
             }
         }
     }
-    void gravityUpdate() {
+    public void gravityUpdate() {
         if(gp.collisionChecker.gravity(this) && !keyHandler.jump && !keyHandler.getDown) {
             y += jumpSpeed;
             keyHandler.gravity = true;

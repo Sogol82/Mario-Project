@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable{
         keyHandler = new KeyHandler();
         collisionChecker = new CollisionChecker(this);
         //////////////////////////////////////////////////////////////////
-        player = new MiniMario(this,keyHandler);
+        player = new FireMario(this,keyHandler);
         coins = 0;
         score = 0;
 

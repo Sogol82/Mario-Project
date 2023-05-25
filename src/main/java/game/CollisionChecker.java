@@ -37,16 +37,19 @@ public class CollisionChecker {
         entityRightCol = (entitySolidRight + entity.speed) / Data.tileSize;
         int tileNum1 = gp.tileManager.mapTileNum[entityRightCol][entityTopRow];
         int tileNum2 = gp.tileManager.mapTileNum[entityRightCol][entityBottomRow];
+        int tileNum3 = gp.tileManager.mapTileNum[entityRightCol][entityBottomRow-1];
 
         if(entity.y % Data.tileSize != 0) {
             if((tileNum1 != 9 && gp.tileManager.tile[tileNum1].collision) ||
-                    (tileNum2 != 9 && gp.tileManager.tile[tileNum2].collision) ) {
+                    (tileNum2 != 9 && gp.tileManager.tile[tileNum2].collision) ||
+                    (tileNum3 != 9 && gp.tileManager.tile[tileNum3].collision)) {
                 return false;
             } else {
                 return true;
             }
         } else {
-            if (tileNum1 != 9 && gp.tileManager.tile[tileNum1].collision) {
+            if (tileNum1 != 9 && gp.tileManager.tile[tileNum1].collision ||
+                    (tileNum3 != 9 && gp.tileManager.tile[tileNum3].collision)) {
                 return false;
             }
         }
@@ -57,16 +60,19 @@ public class CollisionChecker {
         entityLeftCol = (entitySolidLeft - entity.speed) / Data.tileSize;
         int tileNum1 = gp.tileManager.mapTileNum[entityLeftCol][entityTopRow];
         int tileNum2 = gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow];
+        int tileNum3 = gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow-1];
 
         if(entity.y % Data.tileSize != 0) {
             if((tileNum1 != 9 && gp.tileManager.tile[tileNum1].collision) ||
-                    (tileNum2 != 9 && gp.tileManager.tile[tileNum2].collision) ) {
+                    (tileNum2 != 9 && gp.tileManager.tile[tileNum2].collision) ||
+                    (tileNum3 != 9 && gp.tileManager.tile[tileNum3].collision) ) {
                 return false;
             } else {
                 return true;
             }
         } else {
-            if (tileNum1 != 9 && gp.tileManager.tile[tileNum1].collision) {
+            if (tileNum1 != 9 && gp.tileManager.tile[tileNum1].collision ||
+                    (tileNum3 != 9 && gp.tileManager.tile[tileNum3].collision)) {
                 return false;
             }
         }
@@ -77,6 +83,7 @@ public class CollisionChecker {
         entityTopRow = (entitySolidTop - entity.jumpSpeed) / Data.tileSize;
         int tileNum1 = gp.tileManager.mapTileNum[entityLeftCol][entityTopRow];
         int tileNum2 = gp.tileManager.mapTileNum[entityRightCol][entityTopRow];
+
         if( (tileNum1 != 9 && gp.tileManager.tile[tileNum1].collision) ||
                 (tileNum2 != 9 && gp.tileManager.tile[tileNum2].collision) ) {
             return false;
@@ -88,6 +95,7 @@ public class CollisionChecker {
         entityBottomRow = (entitySolidBottom + entity.jumpSpeed) / Data.tileSize;
         int tileNum1 = gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow];
         int tileNum2 = gp.tileManager.mapTileNum[entityRightCol][entityBottomRow];
+
         if((tileNum1 != 9 && gp.tileManager.tile[tileNum1].collision) ||
                 (tileNum2 != 9 && gp.tileManager.tile[tileNum2].collision) ) {
             return false;
@@ -99,6 +107,7 @@ public class CollisionChecker {
         entityBottomRow = (entitySolidBottom + entity.jumpSpeed) / Data.tileSize;
         int tileNum1 = gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow];
         int tileNum2 = gp.tileManager.mapTileNum[entityRightCol][entityBottomRow];
+
         if((tileNum1 == 9 || !gp.tileManager.tile[tileNum1].collision) && (tileNum2 == 9 || !gp.tileManager.tile[tileNum2].collision)) {
             return true;
         }
@@ -175,6 +184,34 @@ public class CollisionChecker {
             if( ( (coinSolidLeft <= entitySolidRight) && (entitySolidRight <= coinSolidLeft + entity.solidArea.width) ) &&
                     ( (coinSolidTop <= entitySolidBottom) && (entitySolidBottom <= coinSolidTop + entity.solidArea.height) ) ) {
                 gp.tileManager.mapTileNum[entityRightCol][entityBottomRow] = 9;
+                gp.coins++;
+                gp.score += 10;
+            }
+        }
+
+
+
+        ////////////////////////////baraye mega va fire
+
+        if(gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow-1] == 8) {
+            coinSolidRight = (entityLeftCol * Data.tileSize) + Data.coinX + Data.coinWidth;
+            coinSolidTop = ((entityBottomRow-1) * Data.tileSize) + Data.coinY;
+
+            if( ( (coinSolidRight - entity.solidArea.width <= entitySolidLeft) && (entitySolidLeft <= coinSolidRight) ) &&
+                    ( (coinSolidTop <= entitySolidBottom-1) && (entitySolidBottom-1 <= coinSolidTop + entity.solidArea.height) ) ) {
+                gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow-1] = 9;
+                gp.coins++;
+                gp.score += 10;
+            }
+        }
+
+        if(gp.tileManager.mapTileNum[entityRightCol][entityBottomRow-1] == 8) {
+            coinSolidLeft = (entityRightCol * Data.tileSize) + Data.coinX;
+            coinSolidTop = ((entityBottomRow-1) * Data.tileSize) + Data.coinY;
+
+            if( ( (coinSolidLeft <= entitySolidRight) && (entitySolidRight <= coinSolidLeft + entity.solidArea.width) ) &&
+                    ( (coinSolidTop <= entitySolidBottom-1) && (entitySolidBottom-1 <= coinSolidTop + entity.solidArea.height) ) ) {
+                gp.tileManager.mapTileNum[entityRightCol][entityBottomRow-1] = 9;
                 gp.coins++;
                 gp.score += 10;
             }
