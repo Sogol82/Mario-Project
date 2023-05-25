@@ -1,7 +1,6 @@
 package game;
 
-import entity.Plant;
-import entity.Player;
+import entity.*;
 import management.*;
 import pages.LoadGames;
 import tile.TileManager;
@@ -42,7 +41,8 @@ public class GamePanel extends JPanel implements Runnable{
         tileManager = new TileManager(this);
         keyHandler = new KeyHandler();
         collisionChecker = new CollisionChecker(this);
-        player = new Player(this,keyHandler);
+        //////////////////////////////////////////////////////////////////
+        player = new MiniMario(this,keyHandler);
         coins = 0;
         score = 0;
 

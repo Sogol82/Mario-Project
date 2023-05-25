@@ -1,43 +1,33 @@
 package entity;
 
+import game.GamePanel;
+import game.KeyHandler;
 import management.Data;
 
 import javax.imageio.ImageIO;
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Player extends Entity {
-    public final int screenX = Data.tileSize * 4;
-    game.GamePanel gp;
-    game.KeyHandler keyHandler;
-    int jumpHeight = Data.tileSize * 4;
-    int yJump;
-    public int hearts;
-    public boolean powerUp1, powerUp2;
-    public boolean isDead;
-    public int yDead;
-    int ySecretPipe;
-    int secretPipeCounter = 1;
-    boolean pipeDown, pipeUp;
-    public boolean deadUp, deadDown;
-    public int PHeight;
-    public Player(game.GamePanel gp, game.KeyHandler keyHandler) {
+public class MiniMario extends Player {
+    public MiniMario(game.GamePanel gp, game.KeyHandler keyHandler) {
+        super(gp,keyHandler);
         this.gp = gp;
         this.keyHandler = keyHandler;
         hearts = 3;
         solidArea = new Rectangle(2 * Data.scale,2 * Data.scale,12 * Data.scale,14 * Data.scale);
-        setDefaultValues();
-        getPlayerImage(this.gp.playerID);
+        this.setDefaultValues();
+        this.getPlayerImage(this.gp.playerID);
     }
-    public Player(game.GamePanel gp, game.KeyHandler keyHandler, int x, int y, int hearts, int PHeight) {
+    public MiniMario(game.GamePanel gp, game.KeyHandler keyHandler, int x, int y, int hearts) {
         this(gp,keyHandler);
         this.x = x;
         this.y = y;
         this.hearts = hearts;
-        this.PHeight = PHeight;
+        this.PHeight = Data.tileSize;
         solidArea = new Rectangle(2 * Data.scale,2 * Data.scale,12 * Data.scale,PHeight - (2 * Data.scale));
-        getPlayerImage(this.gp.playerID);
+        this.getPlayerImage(this.gp.playerID);
     }
     public void getPlayerImage(int id) {
         ///////1 = mario
@@ -121,7 +111,7 @@ public class Player extends Entity {
                         }
                         if(pipeUp) {
                             if(y > ySecretPipe -  2 * Data.tileSize) {
-                               y -= 2;
+                                y -= 2;
                             } else {
                                 y = ySecretPipe -  2 * Data.tileSize;
                                 pipeUp = false;
@@ -282,6 +272,7 @@ public class Player extends Entity {
         }
     }
     public void draw(Graphics2D g2) {
+
         BufferedImage image = null;
         switch(direction) {
             case "right":
@@ -310,10 +301,19 @@ public class Player extends Entity {
         }
         if(x < screenX) {
             g2.drawImage(image, x, y, Data.tileSize, PHeight, null);
+
+            g2.setColor(ColorUIResource.red);
+            g2.drawRect(x + 2 * Data.scale,y + 2 * Data.scale,12 * Data.scale,PHeight - (2 * Data.scale));
         } else if(x > Data.maxLevelWidth - Data.screenWidth + screenX) {
             g2.drawImage(image, x - Data.maxLevelWidth + Data.screenWidth, y, Data.tileSize, PHeight, null);
+
+            g2.setColor(ColorUIResource.red);
+            g2.drawRect(x - Data.maxLevelWidth + Data.screenWidth + 2 * Data.scale,y + 2 * Data.scale,12 * Data.scale,PHeight - (2 * Data.scale));
         } else {
             g2.drawImage(image, screenX, y, Data.tileSize, PHeight, null);
+
+            g2.setColor(ColorUIResource.red);
+            g2.drawRect(screenX + 2 * Data.scale,y+2 * Data.scale,12 * Data.scale,PHeight - (2 * Data.scale));
         }
     }
 }

@@ -7,7 +7,7 @@ import pages.*;
 
 public class Main {
     public static void main(String[] args) {
-        Data.gameFrame = new GameFrame(new GamePanel(3));
+        Data.gameFrame = new GameFrame(new GamePanel(4));
 //        new EnterPage();
     }
 }
