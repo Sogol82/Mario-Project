@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-    public boolean upPressed,leftPressed, rightPressed, downPressed, goDownPipe, jump, getDown, checkFirstTimeForYJump, gravity, exitGame;
+    public boolean upPressed,leftPressed, rightPressed, downPressed, goDownPipe, jump, getDown, checkFirstTimeForYJump, gravity, exitGame, shot;
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
@@ -29,6 +29,11 @@ public class KeyHandler implements KeyListener {
             }
         }
         if(code == 8) exitGame = true;
+        if(code == 83) {
+            if(!shot) {
+                shot = true;
+            }
+        }
     }
 
     @Override

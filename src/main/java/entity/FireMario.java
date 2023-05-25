@@ -9,8 +9,10 @@ import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class FireMario extends Player {
+    ArrayList<Shot> shots = new ArrayList<>();
     public FireMario(GamePanel gp, KeyHandler keyHandler) {
         super(gp,keyHandler);
         this.gp = gp;
@@ -90,6 +92,9 @@ public class FireMario extends Player {
         PHeight = Data.tileSize * 2;
     }
     public void update() {
+        for(Shot shot : shots) {
+            shot.moveForward();
+        }
         if(!isDead) {
             if(keyHandler.goDownPipe) {
                 if(direction.equals("right") || direction.equals("left")) {
@@ -125,6 +130,9 @@ public class FireMario extends Player {
                     }
                 }
             } else if(keyHandler.leftPressed || keyHandler.rightPressed || keyHandler.jump || keyHandler.getDown) {
+
+                ///////////////////////////shot
+                shout();
 
                 if(keyHandler.leftPressed) {
                     if(gp.collisionChecker.checkLeft(this)) {
@@ -199,6 +207,8 @@ public class FireMario extends Player {
                     spriteCounter = 0;
                 }
             } else {
+                ///////////////////////////shot
+                shout();
                 spriteNum = 1;
             }
 
@@ -243,6 +253,52 @@ public class FireMario extends Player {
                 /////////////////////////////////
 //                this.hearts--;
             }
+        }
+    }
+    public void shout() {
+        if(keyHandler.shot) {
+            System.out.println();
+            shots.add(new Shot(screenX,y+(Data.tileSize/2),speed,direction));
+            keyHandler.shot = false;
+        }
+    }
+    public void draw(Graphics2D g2) {
+        BufferedImage image = null;
+        switch(direction) {
+            case "right":
+                if(spriteNum == 1) {
+                    image = right1;
+                } else if(spriteNum == 2) {
+                    image = right2;
+                }
+                break;
+            case "left":
+                if(spriteNum == 1) {
+                    image = left1;
+                } else if(spriteNum == 2) {
+                    image = left2;
+                }
+                break;
+            case "upLeft":
+                image = upL;
+                break;
+            case "upRight":
+                image = upR;
+                break;
+            case "dead":
+                image = dead;
+
+        }
+        if(x < screenX) {
+            g2.drawImage(image, x, y, Data.tileSize, PHeight, null);
+        } else if(x > Data.maxLevelWidth - Data.screenWidth + screenX) {
+            g2.drawImage(image, x - Data.maxLevelWidth + Data.screenWidth, y, Data.tileSize, PHeight, null);
+        } else {
+            g2.drawImage(image, screenX, y, Data.tileSize, PHeight, null);
+        }
+
+        for(Shot shot : shots) {
+            shot.draw(g2);
         }
     }
 }

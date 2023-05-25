@@ -113,7 +113,6 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public void update() {
         player.update();
-
         for(Plant plant : plants) {
             plant.update();
         }
@@ -122,8 +121,6 @@ public class GamePanel extends JPanel implements Runnable{
             endGame();
         }
     }
-
-
     public void endGame() {
         score += seconds;
         score += 20 * player.hearts;
