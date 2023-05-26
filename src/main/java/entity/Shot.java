@@ -59,6 +59,14 @@ public class Shot extends Entity{
         }
     }
 
+    public void moveBackward() {
+        if(direction.equals("right")) {
+            x -= speed;
+        } else {
+            x += speed;
+        }
+    }
+
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         switch(direction) {

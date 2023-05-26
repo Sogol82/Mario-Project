@@ -80,6 +80,11 @@ public class CollisionChecker {
     }
     public boolean checkUp(Entity entity) {
         checkTile(entity);
+        /////////////////////////////////////////az balaye safe rad nashe
+        if(entitySolidTop - entity.jumpSpeed < 0) {
+            return false;
+        }
+
         entityTopRow = (entitySolidTop - entity.jumpSpeed) / Data.tileSize;
         int tileNum1 = gp.tileManager.mapTileNum[entityLeftCol][entityTopRow];
         int tileNum2 = gp.tileManager.mapTileNum[entityRightCol][entityTopRow];
