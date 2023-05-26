@@ -1,31 +1,34 @@
-package entity;
+package entity.player;
 
+import entity.Plant;
+import entity.Shot;
 import game.GamePanel;
 import game.KeyHandler;
 import management.Data;
 
 import javax.imageio.ImageIO;
-import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class MiniMario extends Player {
-    public MiniMario(game.GamePanel gp, game.KeyHandler keyHandler) {
+public class FireMario extends Player {
+    ArrayList<Shot> shots = new ArrayList<>();
+    public FireMario(GamePanel gp, KeyHandler keyHandler) {
         super(gp,keyHandler);
         this.gp = gp;
         this.keyHandler = keyHandler;
         hearts = 3;
-        solidArea = new Rectangle(2 * Data.scale,2 * Data.scale,12 * Data.scale,14 * Data.scale);
+        solidArea = new Rectangle(2 * Data.scale,2 * Data.scale,12 * Data.scale,PHeight - (2 * Data.scale));
         this.setDefaultValues();
         this.getPlayerImage(this.gp.playerID);
     }
-    public MiniMario(game.GamePanel gp, game.KeyHandler keyHandler, int x, int y, int hearts) {
+    public FireMario(game.GamePanel gp, game.KeyHandler keyHandler, int x, int y, int hearts, int PHeight) {
         this(gp,keyHandler);
         this.x = x;
         this.y = y;
         this.hearts = hearts;
-        this.PHeight = Data.tileSize;
+        this.PHeight = PHeight;
         solidArea = new Rectangle(2 * Data.scale,2 * Data.scale,12 * Data.scale,PHeight - (2 * Data.scale));
         this.getPlayerImage(this.gp.playerID);
     }
@@ -87,11 +90,15 @@ public class MiniMario extends Player {
         y = Data.screenHeight - (3 * Data.tileSize);
         speed = 4;
         jumpSpeed = 6;
-        PHeight = Data.tileSize;
+        PHeight = Data.tileSize * 2;
     }
     public void update() {
+        for(Shot shot : shots) {
+            shot.moveForward();
+        }
         if(!isDead) {
             if(keyHandler.goDownPipe) {
+                keyHandler.shot = false;
                 if(direction.equals("right") || direction.equals("left")) {
                     ///////////////////////////////////////////////////////
                     if(gp.collisionChecker.checkSecretPipe(this)) {
@@ -126,12 +133,29 @@ public class MiniMario extends Player {
                 }
             } else if(keyHandler.leftPressed || keyHandler.rightPressed || keyHandler.jump || keyHandler.getDown) {
 
+                ///////////////////////////shot
+                shoot();
+
                 if(keyHandler.leftPressed) {
                     if(gp.collisionChecker.checkLeft(this)) {
                         x -= speed;
                         direction = "left";
                         if(x < 0) {
                             x = 0;
+                        }
+
+                        /////////////////////////shots keep moving when mario goes to left but shot goes to right
+                        for(Shot shot : shots) {
+                            if(shot.direction.equals("right")) {
+                                shot.moveForward();
+                            }
+                        }
+
+                        /////////////////////////shots keep moving with same speed as mario when mario goes to left
+                        for(Shot shot : shots) {
+                            if(shot.direction.equals("left")) {
+                                shot.moveBackward();
+                            }
                         }
                     }
                 }
@@ -141,6 +165,20 @@ public class MiniMario extends Player {
                         direction = "right";
                         if (x > Data.maxLevelWidth - Data.tileSize) {
                             x = Data.maxLevelWidth - Data.tileSize;
+                        }
+
+                        /////////////////////////shots keep moving when mario goes to right but shot goes to left
+                        for(Shot shot : shots) {
+                            if(shot.direction.equals("left")) {
+                                shot.moveForward();
+                            }
+                        }
+
+                        /////////////////////////shots keep moving with same speed as mario when mario goes to right
+                        for(Shot shot : shots) {
+                            if(shot.direction.equals("right")) {
+                                shot.moveBackward();
+                            }
                         }
                     }
                 }
@@ -199,11 +237,17 @@ public class MiniMario extends Player {
                     spriteCounter = 0;
                 }
             } else {
+                ///////////////////////////shot
+                shoot();
                 spriteNum = 1;
             }
 
             if(!keyHandler.goDownPipe) {
                 gp.collisionChecker.checkCoinCollision(this);
+                ///////////////////////////////////////////////////////////////
+                if( direction.equals("upRight") ||  direction.equals("upLeft")) {
+                    gp.collisionChecker.checkBlockCollision(this);
+                }
                 fallUpdate();
                 plantCollisionUpdate();
                 gravityUpdate();
@@ -226,28 +270,8 @@ public class MiniMario extends Player {
         }
     }
     public void deadUpdate() {
-        direction = "dead";
         if(deadUp) {
-            if(y > yDead - 200) {
-                y -= 5;
-            } else {
-                deadUp = false;
-                deadDown = true;
-                y = yDead - 200;
-            }
-        } else if (deadDown) {
-            if(y < Data.screenHeight + Data.tileSize) {
-                y += 5;
-            } else {
-                deadDown = false;
-                setDefaultValues();
-                direction = "right";
-                isDead = false;
-                keyHandler.jump = false;
-                keyHandler.getDown = false;
-                gp.seconds = Data.levelTime;
-                gp.timer.start();
-            }
+            gp.player = new MegaMario(this.gp,this.keyHandler,this.x,this.y,this.hearts,Data.tileSize*2);
         }
     }
     public void plantCollisionUpdate() {
@@ -256,9 +280,55 @@ public class MiniMario extends Player {
                 this.isDead = true;
                 deadUp = true;
                 yDead = y;
-                this.hearts--;
+                /////////////////////////////////
+//                this.hearts--;
             }
         }
     }
+    public void shoot() {
+        if(!(gp.collisionChecker.gravity(this) && !keyHandler.jump && !keyHandler.getDown) &&
+        (keyHandler.shot && (direction.equals("right") || direction.equals("left"))) ) {
+            shots.add(new Shot(screenX,y+(Data.tileSize/2),speed,direction));
+        }
+        keyHandler.shot = false;
+    }
+    public void draw(Graphics2D g2) {
+        BufferedImage image = null;
+        switch(direction) {
+            case "right":
+                if(spriteNum == 1) {
+                    image = right1;
+                } else if(spriteNum == 2) {
+                    image = right2;
+                }
+                break;
+            case "left":
+                if(spriteNum == 1) {
+                    image = left1;
+                } else if(spriteNum == 2) {
+                    image = left2;
+                }
+                break;
+            case "upLeft":
+                image = upL;
+                break;
+            case "upRight":
+                image = upR;
+                break;
+            case "dead":
+                image = dead;
 
+        }
+        if(x < screenX) {
+            g2.drawImage(image, x, y, Data.tileSize, PHeight, null);
+        } else if(x > Data.maxLevelWidth - Data.screenWidth + screenX) {
+            g2.drawImage(image, x - Data.maxLevelWidth + Data.screenWidth, y, Data.tileSize, PHeight, null);
+        } else {
+            g2.drawImage(image, screenX, y, Data.tileSize, PHeight, null);
+        }
+
+        for(Shot shot : shots) {
+            shot.draw(g2);
+        }
+    }
 }

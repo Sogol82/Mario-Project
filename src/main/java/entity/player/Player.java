@@ -1,33 +1,45 @@
-package entity;
+package entity.player;
 
-import game.GamePanel;
-import game.KeyHandler;
+import entity.Entity;
+import entity.Plant;
 import management.Data;
 
 import javax.imageio.ImageIO;
-import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class MegaMario extends Player {
-    public MegaMario(GamePanel gp, KeyHandler keyHandler) {
-        super(gp,keyHandler);
+public class Player extends Entity implements PlayerI {
+    public final int screenX = Data.tileSize * 4;
+    game.GamePanel gp;
+    game.KeyHandler keyHandler;
+    int jumpHeight = Data.tileSize * 4;
+    int yJump;
+    public int hearts;
+    public boolean powerUp1, powerUp2;
+    public boolean isDead;
+    public int yDead;
+    int ySecretPipe;
+    int secretPipeCounter = 1;
+    boolean pipeDown, pipeUp;
+    public boolean deadUp, deadDown;
+    public int PHeight;
+    public Player(game.GamePanel gp, game.KeyHandler keyHandler) {
         this.gp = gp;
         this.keyHandler = keyHandler;
         hearts = 3;
-        solidArea = new Rectangle(2 * Data.scale,2 * Data.scale,12 * Data.scale,PHeight - (2 * Data.scale));
-        this.setDefaultValues();
-        this.getPlayerImage(this.gp.playerID);
+        solidArea = new Rectangle(2 * Data.scale,2 * Data.scale,12 * Data.scale,14 * Data.scale);
+        setDefaultValues();
+        getPlayerImage(this.gp.playerID);
     }
-    public MegaMario(game.GamePanel gp, game.KeyHandler keyHandler, int x, int y, int hearts, int PHeight) {
+    public Player(game.GamePanel gp, game.KeyHandler keyHandler, int x, int y, int hearts, int PHeight) {
         this(gp,keyHandler);
         this.x = x;
         this.y = y;
         this.hearts = hearts;
         this.PHeight = PHeight;
         solidArea = new Rectangle(2 * Data.scale,2 * Data.scale,12 * Data.scale,PHeight - (2 * Data.scale));
-        this.getPlayerImage(this.gp.playerID);
+        getPlayerImage(this.gp.playerID);
     }
     public void getPlayerImage(int id) {
         ///////1 = mario
@@ -87,7 +99,7 @@ public class MegaMario extends Player {
         y = Data.screenHeight - (3 * Data.tileSize);
         speed = 4;
         jumpSpeed = 6;
-        PHeight = Data.tileSize * 2;
+        PHeight = Data.tileSize;
     }
     public void update() {
         if(!isDead) {
@@ -111,7 +123,7 @@ public class MegaMario extends Player {
                         }
                         if(pipeUp) {
                             if(y > ySecretPipe -  2 * Data.tileSize) {
-                                y -= 2;
+                               y -= 2;
                             } else {
                                 y = ySecretPipe -  2 * Data.tileSize;
                                 pipeUp = false;
@@ -151,7 +163,6 @@ public class MegaMario extends Player {
                         yJump = y;
                         keyHandler.checkFirstTimeForYJump = false;
                     }
-
                     if(gp.collisionChecker.checkUp(this)) {
                         y -= jumpSpeed;
                         if(y <= yJump-jumpHeight) {
@@ -204,10 +215,6 @@ public class MegaMario extends Player {
 
             if(!keyHandler.goDownPipe) {
                 gp.collisionChecker.checkCoinCollision(this);
-                ///////////////////////////////////////////////////////////////
-                if( direction.equals("upRight") ||  direction.equals("upLeft")) {
-                    gp.collisionChecker.checkBlockCollision(this);
-                }
                 fallUpdate();
                 plantCollisionUpdate();
                 gravityUpdate();
@@ -230,8 +237,28 @@ public class MegaMario extends Player {
         }
     }
     public void deadUpdate() {
+        direction = "dead";
         if(deadUp) {
-            gp.player = new MiniMario(this.gp,this.keyHandler,this.x,this.y+Data.tileSize,this.hearts);
+            if(y > yDead - 200) {
+                y -= 5;
+            } else {
+                deadUp = false;
+                deadDown = true;
+                y = yDead - 200;
+            }
+        } else if (deadDown) {
+            if(y < Data.screenHeight + Data.tileSize) {
+                y += 5;
+            } else {
+                deadDown = false;
+                setDefaultValues();
+                direction = "right";
+                isDead = false;
+                keyHandler.jump = false;
+                keyHandler.getDown = false;
+                gp.seconds = Data.levelTime;
+                gp.timer.start();
+            }
         }
     }
     public void plantCollisionUpdate() {
@@ -240,10 +267,54 @@ public class MegaMario extends Player {
                 this.isDead = true;
                 deadUp = true;
                 yDead = y;
-                /////////////////////////////////
-//                this.hearts--;
+                this.hearts--;
             }
         }
     }
+    public void gravityUpdate() {
+        if(gp.collisionChecker.gravity(this) && !keyHandler.jump && !keyHandler.getDown) {
+            y += jumpSpeed;
+            keyHandler.gravity = true;
+        } else if(!gp.collisionChecker.gravity(this) && !keyHandler.jump && !keyHandler.getDown) {
+            if(y % Data.tileSize != 0) {
+                y = ((y/ Data.tileSize)+1) * Data.tileSize;
+            }
+            keyHandler.gravity = false;
+        }
+    }
+    public void draw(Graphics2D g2) {
+        BufferedImage image = null;
+        switch(direction) {
+            case "right":
+                if(spriteNum == 1) {
+                    image = right1;
+                } else if(spriteNum == 2) {
+                    image = right2;
+                }
+                break;
+            case "left":
+                if(spriteNum == 1) {
+                    image = left1;
+                } else if(spriteNum == 2) {
+                    image = left2;
+                }
+                break;
+            case "upLeft":
+                image = upL;
+                break;
+            case "upRight":
+                image = upR;
+                break;
+            case "dead":
+                image = dead;
 
+        }
+        if(x < screenX) {
+            g2.drawImage(image, x, y, Data.tileSize, PHeight, null);
+        } else if(x > Data.maxLevelWidth - Data.screenWidth + screenX) {
+            g2.drawImage(image, x - Data.maxLevelWidth + Data.screenWidth, y, Data.tileSize, PHeight, null);
+        } else {
+            g2.drawImage(image, screenX, y, Data.tileSize, PHeight, null);
+        }
+    }
 }

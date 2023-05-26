@@ -9,15 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Shot extends Entity{
-    public int x, y;
-    public int speed;
-    public int jumpSpeed;
-    public BufferedImage upR, upL, right1, right2, left1, left2, dead;
-    public String direction = "right";
-    public int spriteNum = 1;
-    public int spriteCounter = 0;
     public int SHeight;
-    public Rectangle solidArea;
 
     public Shot(int x, int y, int speed,String direction) {
         this. x = x;

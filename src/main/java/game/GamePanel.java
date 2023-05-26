@@ -1,6 +1,8 @@
 package game;
 
 import entity.*;
+import entity.player.FireMario;
+import entity.player.Player;
 import management.*;
 import pages.LoadGames;
 import tile.TileManager;
