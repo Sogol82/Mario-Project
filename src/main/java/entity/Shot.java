@@ -10,11 +10,14 @@ import java.io.IOException;
 
 public class Shot extends Entity{
     public int SHeight;
-
+    public boolean stop;
+    public int numberOfFPS;
+    public int counter = 0;
     public Shot(int x, int y, int speed,String direction) {
         this. x = x;
         this.y = y;
         this.speed = speed;
+        numberOfFPS = (Data.tileSize*8)/speed;
 
         if(direction.equals("right") || direction.equals("upRight")) {
             this.direction = "right";
@@ -49,6 +52,17 @@ public class Shot extends Entity{
         } else {
             x -= speed;
         }
+        check8Block();
+
+//        if(direction.equals("right")) {
+//            if(check8Block(x+speed)) {
+//                x += speed;
+//            }
+//        } else {
+//            if(check8Block(x-speed)) {
+//                x -= speed;
+//            }
+//        }
     }
 
     public void moveBackward() {
@@ -57,9 +71,21 @@ public class Shot extends Entity{
         } else {
             x += speed;
         }
+        check8Block();
+
+//        if(direction.equals("right")) {
+//            if(check8Block(x-speed)) {
+//                x -= speed;
+//            }
+//        } else {
+//            if(check8Block(x+speed)) {
+//                x += speed;
+//            }
+//        }
     }
 
     public void draw(Graphics2D g2) {
+        counter++;
         BufferedImage image = null;
         switch(direction) {
             case "right":
@@ -68,7 +94,15 @@ public class Shot extends Entity{
             case "left":
                 image = upL;
         }
-
         g2.drawImage(image, x, y, SHeight, SHeight, null);
+    }
+
+    public boolean check8Block() {
+        if(counter >= numberOfFPS) {
+            stop = true;
+            return false;
+        }
+        stop = false;
+        return true;
     }
 }

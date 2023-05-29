@@ -93,6 +93,7 @@ public class FireMario extends Player {
         PHeight = Data.tileSize * 2;
     }
     public void update() {
+        System.out.println("players x is " + x + " and its column is " + x/Data.tileSize);
         for(Shot shot : shots) {
             shot.moveForward();
         }
@@ -260,6 +261,19 @@ public class FireMario extends Player {
         } else {///////////////////////if dead
             deadUpdate();
         }
+
+
+
+
+
+        //////////////////////////////check shots
+        ArrayList<Shot> newShots = new ArrayList<>();
+        for(Shot shot : shots) {
+            if(!shot.stop) {
+                newShots.add(shot);
+            }
+        }
+        shots = newShots;
     }
     public void fallUpdate() {
         if(gp.collisionChecker.checkFall(this)) {
@@ -330,5 +344,10 @@ public class FireMario extends Player {
         for(Shot shot : shots) {
             shot.draw(g2);
         }
+    }
+
+
+    public void checkShots() {
+
     }
 }
