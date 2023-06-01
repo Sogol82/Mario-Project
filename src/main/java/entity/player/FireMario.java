@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class FireMario extends Player {
-    ArrayList<Shot> shots = new ArrayList<>();
+
     public FireMario(GamePanel gp, KeyHandler keyHandler) {
         super(gp,keyHandler);
         this.gp = gp;
@@ -93,10 +93,10 @@ public class FireMario extends Player {
         PHeight = Data.tileSize * 2;
     }
     public void update() {
-        System.out.println("players x is " + x + " and its column is " + x/Data.tileSize);
-        for(Shot shot : shots) {
-            shot.moveForward();
-        }
+//        System.out.println("players x is " + x + " and its column is " + x/Data.tileSize);
+//        for(Shot shot : shots) {
+//            shot.moveForward();
+//        }
         if(!isDead) {
             if(keyHandler.goDownPipe) {
                 keyHandler.shot = false;
@@ -145,19 +145,19 @@ public class FireMario extends Player {
                             x = 0;
                         }
 
-                        /////////////////////////shots keep moving when mario goes to left but shot goes to right
-                        for(Shot shot : shots) {
-                            if(shot.direction.equals("right")) {
-                                shot.moveForward();
-                            }
-                        }
-
-                        /////////////////////////shots keep moving with same speed as mario when mario goes to left
-                        for(Shot shot : shots) {
-                            if(shot.direction.equals("left")) {
-                                shot.moveBackward();
-                            }
-                        }
+//                        /////////////////////////shots keep moving when mario goes to left but shot goes to right
+//                        for(Shot shot : shots) {
+//                            if(shot.direction.equals("right")) {
+//                                shot.moveForward();
+//                            }
+//                        }
+//
+//                        /////////////////////////shots keep moving with same speed as mario when mario goes to left
+//                        for(Shot shot : shots) {
+//                            if(shot.direction.equals("left")) {
+//                                shot.moveBackward();
+//                            }
+//                        }
                     }
                 }
                 if(keyHandler.rightPressed) {
@@ -168,19 +168,19 @@ public class FireMario extends Player {
                             x = Data.maxLevelWidth - Data.tileSize;
                         }
 
-                        /////////////////////////shots keep moving when mario goes to right but shot goes to left
-                        for(Shot shot : shots) {
-                            if(shot.direction.equals("left")) {
-                                shot.moveForward();
-                            }
-                        }
-
-                        /////////////////////////shots keep moving with same speed as mario when mario goes to right
-                        for(Shot shot : shots) {
-                            if(shot.direction.equals("right")) {
-                                shot.moveBackward();
-                            }
-                        }
+//                        /////////////////////////shots keep moving when mario goes to right but shot goes to left
+//                        for(Shot shot : shots) {
+//                            if(shot.direction.equals("left")) {
+//                                shot.moveForward();
+//                            }
+//                        }
+//
+//                        /////////////////////////shots keep moving with same speed as mario when mario goes to right
+//                        for(Shot shot : shots) {
+//                            if(shot.direction.equals("right")) {
+//                                shot.moveBackward();
+//                            }
+//                        }
                     }
                 }
 
@@ -301,8 +301,8 @@ public class FireMario extends Player {
     }
     public void shoot() {
         if(!(gp.collisionChecker.gravity(this) && !keyHandler.jump && !keyHandler.getDown) &&
-        (keyHandler.shot && (direction.equals("right") || direction.equals("left"))) ) {
-            shots.add(new Shot(screenX,y+(Data.tileSize/2),speed,direction));
+        (keyHandler.shot && (direction.equals("right") || direction.equals("left"))) && (!keyHandler.getDown)) {
+            shots.add(new Shot(x,y+(Data.tileSize/2),1,direction,gp));
         }
         keyHandler.shot = false;
     }
@@ -333,21 +333,25 @@ public class FireMario extends Player {
                 image = dead;
 
         }
+
+
+//        Player player = this;
+
         if(x < screenX) {
             g2.drawImage(image, x, y, Data.tileSize, PHeight, null);
         } else if(x > Data.maxLevelWidth - Data.screenWidth + screenX) {
             g2.drawImage(image, x - Data.maxLevelWidth + Data.screenWidth, y, Data.tileSize, PHeight, null);
+//            player.x = x - Data.maxLevelWidth + Data.screenWidth;
         } else {
             g2.drawImage(image, screenX, y, Data.tileSize, PHeight, null);
+//            player.x = screenX;
         }
+//        gp.collisionChecker.drawTiles(g2,player);
 
-        for(Shot shot : shots) {
-            shot.draw(g2);
-        }
-    }
+//        for(Shot shot : shots) {
+//            shot.draw(g2);
+//        }
 
-
-    public void checkShots() {
 
     }
 }

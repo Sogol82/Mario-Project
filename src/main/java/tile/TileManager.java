@@ -1,6 +1,7 @@
 package tile;
 
 import entity.Plant;
+import entity.Shot;
 import management.Data;
 
 import javax.imageio.ImageIO;
@@ -125,6 +126,11 @@ public class TileManager {
         int y = 0;
 
         while(levelColumn < Data.maxLevelCol && levelRow < Data.maxScreenRow) {
+
+            g2.setColor(Color.black);
+            g2.drawLine(levelColumn*Data.tileSize,0,levelColumn*Data.tileSize,Data.maxScreenRow*Data.tileSize);
+
+
             ////////////// ba if
             if (gp.player.x < gp.player.screenX) {
                 int levelX = levelColumn * Data.tileSize;
@@ -142,6 +148,20 @@ public class TileManager {
 
                     if(mapTileNum[levelColumn][levelRow] != 9) {
                         g2.drawImage(tile[mapTileNum[levelColumn][levelRow]].image, levelX,y, Data.tileSize, Data.tileSize,null);
+                    }
+
+
+                    //////////////////////////////shots drawing
+                    for(Shot shot : gp.player.shots) {
+                        if(levelColumn == shot.shotsTileColumn) {
+                            shot.draw(levelX+shot.distanceFromFirstColumn,g2);
+                            shot.x = levelX+shot.distanceFromFirstColumn;
+                            if(shot.drawCounter == 1) {
+                                shot.firstXDrawn =  levelX+shot.distanceFromFirstColumn;
+                                shot.drawCounter = 0;
+                            }
+                            shot.lastXDrawn = levelX+shot.distanceFromFirstColumn;
+                        }
                     }
 
                 }
@@ -183,6 +203,18 @@ public class TileManager {
                     }
 
 
+                    //////////////////////////////shots drawing
+                    for(Shot shot : gp.player.shots) {
+                        if(levelColumn == shot.shotsTileColumn) {
+                            shot.draw(drawX+shot.distanceFromFirstColumn,g2);
+                            shot.x = drawX+shot.distanceFromFirstColumn + Data.maxLevelWidth - Data.screenWidth;
+                            if(shot.drawCounter == 1) {
+                                shot.firstXDrawn = drawX+shot.distanceFromFirstColumn + Data.maxLevelWidth - Data.screenWidth;
+                                shot.drawCounter = 0;
+                            }
+                            shot.lastXDrawn = drawX+shot.distanceFromFirstColumn + Data.maxLevelWidth - Data.screenWidth;
+                        }
+                    }
 
 
                 }
@@ -223,6 +255,19 @@ public class TileManager {
                         g2.drawImage(tile[mapTileNum[levelColumn][levelRow]].image,drawX,y, Data.tileSize, Data.tileSize,null);
                     }
 
+
+                    //////////////////////////////shots drawing
+                    for(Shot shot : gp.player.shots) {
+                        if(levelColumn == shot.shotsTileColumn) {
+                            shot.draw(drawX+shot.distanceFromFirstColumn,g2);
+                            shot.x = drawX+shot.distanceFromFirstColumn + gp.player.x - gp.player.screenX;
+                            if(shot.drawCounter == 1) {
+                                shot.firstXDrawn = drawX+shot.distanceFromFirstColumn + gp.player.x - gp.player.screenX;
+                                shot.drawCounter = 0;
+                            }
+                            shot.lastXDrawn = drawX+shot.distanceFromFirstColumn + gp.player.x - gp.player.screenX;
+                        }
+                    }
 
                 }
                 levelColumn++;

@@ -4,6 +4,8 @@ import entity.Entity;
 import entity.Plant;
 import management.Data;
 
+import java.awt.*;
+
 public class CollisionChecker {
     int entitySolidLeft;
     int entitySolidRight;
@@ -35,9 +37,21 @@ public class CollisionChecker {
     public boolean checkRight(Entity entity) {
         checkTile(entity);
         entityRightCol = (entitySolidRight + entity.speed) / Data.tileSize;
+
+        ////////////////for shots exception at the end
+        if(entityRightCol >= Data.maxLevelCol) {
+            return false;
+        }
+
+
         int tileNum1 = gp.tileManager.mapTileNum[entityRightCol][entityTopRow];
         int tileNum2 = gp.tileManager.mapTileNum[entityRightCol][entityBottomRow];
-        int tileNum3 = gp.tileManager.mapTileNum[entityRightCol][entityBottomRow-1];
+        int tileNum3;
+        if(entityBottomRow > entityTopRow) {
+            tileNum3 = gp.tileManager.mapTileNum[entityRightCol][entityBottomRow-1];
+        } else {
+            tileNum3 = 9;
+        }
 
         if(entity.y % Data.tileSize != 0) {
             if((tileNum1 != 9 && gp.tileManager.tile[tileNum1].collision) ||
@@ -60,7 +74,12 @@ public class CollisionChecker {
         entityLeftCol = (entitySolidLeft - entity.speed) / Data.tileSize;
         int tileNum1 = gp.tileManager.mapTileNum[entityLeftCol][entityTopRow];
         int tileNum2 = gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow];
-        int tileNum3 = gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow-1];
+        int tileNum3;
+        if(entityBottomRow > entityTopRow) {
+            tileNum3 = gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow-1];
+        } else {
+            tileNum3 = 9;
+        }
 
         if(entity.y % Data.tileSize != 0) {
             if((tileNum1 != 9 && gp.tileManager.tile[tileNum1].collision) ||
@@ -263,6 +282,39 @@ public class CollisionChecker {
             }
 
         }
+
+    }
+    public void drawTiles(Graphics2D g2, Entity entity) {
+        //////check left
+        checkTile(entity);
+        entityLeftCol = (entitySolidLeft - entity.speed) / Data.tileSize;
+
+        g2.setColor(Color.black);
+        g2.drawRect(entityLeftCol*Data.tileSize,entityTopRow*Data.tileSize,Data.tileSize,Data.tileSize);
+        g2.setColor(Color.white);
+        g2.drawRect(entityLeftCol*Data.tileSize,entityBottomRow*Data.tileSize,Data.tileSize,Data.tileSize);
+        g2.setColor(Color.magenta);
+        g2.drawRect(entityLeftCol*Data.tileSize,(entityBottomRow-1)*Data.tileSize,Data.tileSize,Data.tileSize);
+
+        System.out.println(gp.tileManager.mapTileNum[entityRightCol][entityTopRow] + " "
+                + gp.tileManager.mapTileNum[entityRightCol][entityBottomRow] + " "
+                + gp.tileManager.mapTileNum[entityRightCol][entityBottomRow-1]);
+
+
+        ////////////check right
+        checkTile(entity);
+        entityRightCol = (entitySolidRight + entity.speed) / Data.tileSize;
+
+        g2.setColor(Color.red);
+        g2.drawRect(entityRightCol*Data.tileSize,entityTopRow*Data.tileSize,Data.tileSize,Data.tileSize);
+        g2.setColor(Color.blue);
+        g2.drawRect(entityRightCol*Data.tileSize,entityBottomRow*Data.tileSize,Data.tileSize,Data.tileSize);
+        g2.setColor(Color.yellow);
+        g2.drawRect(entityRightCol*Data.tileSize,(entityBottomRow-1)*Data.tileSize,Data.tileSize,Data.tileSize);
+
+        System.out.println(gp.tileManager.mapTileNum[entityLeftCol][entityTopRow] + " "
+                + gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow] + " "
+                + gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow-1]);
 
     }
 }

@@ -2,14 +2,17 @@ package entity.player;
 
 import entity.Entity;
 import entity.Plant;
+import entity.Shot;
 import management.Data;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Player extends Entity implements PlayerI {
+    public ArrayList<Shot> shots = new ArrayList<>();
     public final int screenX = Data.tileSize * 4;
     game.GamePanel gp;
     game.KeyHandler keyHandler;
@@ -309,6 +312,8 @@ public class Player extends Entity implements PlayerI {
                 image = dead;
 
         }
+
+
         if(x < screenX) {
             g2.drawImage(image, x, y, Data.tileSize, PHeight, null);
         } else if(x > Data.maxLevelWidth - Data.screenWidth + screenX) {
