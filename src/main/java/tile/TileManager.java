@@ -1,6 +1,6 @@
 package tile;
 
-import entity.Plant;
+import entity.enemy.Plant;
 import entity.Shot;
 import management.Data;
 

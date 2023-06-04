@@ -1,7 +1,6 @@
 package entity.player;
 
-import entity.Plant;
-import entity.player.Player;
+import entity.enemy.Plant;
 import management.Data;
 
 import javax.imageio.ImageIO;

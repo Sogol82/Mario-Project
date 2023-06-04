@@ -1,7 +1,7 @@
 package game;
 
 import entity.Entity;
-import entity.Plant;
+import entity.enemy.Plant;
 import management.Data;
 
 import java.awt.*;

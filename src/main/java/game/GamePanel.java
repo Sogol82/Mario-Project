@@ -1,6 +1,6 @@
 package game;
 
-import entity.*;
+import entity.enemy.Plant;
 import entity.player.FireMario;
 import entity.player.Player;
 import management.*;

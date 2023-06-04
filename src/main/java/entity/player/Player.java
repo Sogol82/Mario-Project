@@ -1,7 +1,7 @@
 package entity.player;
 
 import entity.Entity;
-import entity.Plant;
+import entity.enemy.Plant;
 import entity.Shot;
 import management.Data;
 

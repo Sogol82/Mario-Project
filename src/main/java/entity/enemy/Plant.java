@@ -1,5 +1,6 @@
-package entity;
+package entity.enemy;
 
+import entity.Entity;
 import management.Data;
 
 import javax.imageio.ImageIO;
@@ -7,7 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Plant extends Entity{
+public class Plant extends Entity {
     int upHeight = 3 * Data.tileSize;
     int firstY;
     public int[] plantsTile;

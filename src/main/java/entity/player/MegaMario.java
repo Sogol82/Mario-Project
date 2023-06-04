@@ -1,6 +1,6 @@
 package entity.player;
 
-import entity.Plant;
+import entity.enemy.Plant;
 import game.GamePanel;
 import game.KeyHandler;
 import management.Data;
