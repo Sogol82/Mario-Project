@@ -107,13 +107,11 @@ public class TileManager {
                         gp.plants.add(thisPlant);
                         //////////////////coins
                     } else if(mapTileNum[column][row] == 8) {
-                        Coin thisCoin = new Coin(column * Data.tileSize, (row + 1) * Data.tileSize,gp);
-//                        thisCoin.realX = column * Data.tileSize;
+                        Coin thisCoin = new Coin(column * Data.tileSize, (row) * Data.tileSize,gp);
                         thisCoin.coinsTile = new int[2];
                         thisCoin.coinsTile[0] = column;
                         thisCoin.coinsTile[1] = row;
                         gp.coinsList.add(thisCoin);
-
 
                         mapTileNum[column][row] = 9;
                     }
@@ -223,7 +221,7 @@ public class TileManager {
                     for(Coin coin : gp.coinsList) {
                         if(coin.coinsTile[0]==levelColumn) {
                             coin.draw(g2,drawX);
-                            coin.x = drawX;
+                            coin.x = drawX + Data.maxLevelWidth - Data.screenWidth;
                         }
                     }
 
@@ -285,7 +283,7 @@ public class TileManager {
                     for(Coin coin : gp.coinsList) {
                         if(coin.coinsTile[0]==levelColumn) {
                             coin.draw(g2,drawX);
-                            coin.x = drawX;
+                            coin.x = drawX + gp.player.x - gp.player.screenX;
                         }
                     }
 

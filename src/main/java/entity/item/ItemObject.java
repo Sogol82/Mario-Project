@@ -22,7 +22,7 @@ public class ItemObject extends Entity implements ItemI{
     @Override
     public void gravityUpdate() {
         if(gp.collisionChecker.gravity(this) && gp.collisionChecker.checkDown(this)) {
-            System.out.println("hhhhheeeee");
+//            System.out.println("hhhhheeeee");
             y += jumpSpeed;
         } else if(y % Data.tileSize != 0) {
                 y = ((y/ Data.tileSize)+1) * Data.tileSize ;
@@ -37,6 +37,8 @@ public class ItemObject extends Entity implements ItemI{
 
         gp.collisionChecker.drawTiles(g2,this);
         gravityUpdate();
+
+//        System.out.println(y + "   " + x);
     }
     @Override
     public void moveForward() {
