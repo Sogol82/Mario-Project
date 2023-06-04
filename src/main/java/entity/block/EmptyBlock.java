@@ -1,4 +1,4 @@
 package entity.block;
 
-public class EmptyBlock {
+public class EmptyBlock extends BlockObject {
 }

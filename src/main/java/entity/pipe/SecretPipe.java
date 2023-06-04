@@ -1,4 +1,4 @@
 package entity.pipe;
 
-public class SecretPipe {
+public class SecretPipe extends PipeObject {
 }

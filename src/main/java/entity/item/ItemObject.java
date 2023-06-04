@@ -1,7 +1,6 @@
 package entity.item;
 
 import entity.Entity;
-import game.CollisionChecker;
 import management.Data;
 
 import javax.imageio.ImageIO;
@@ -9,7 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Item extends Entity implements ItemI{
+public class ItemObject extends Entity implements ItemI{
     public int IHeight = Data.tileSize;
     game.GamePanel gp;
     @Override

@@ -1,5 +1,6 @@
-package entity;
+package entity.player;
 
+import entity.Entity;
 import game.CollisionChecker;
 import game.GamePanel;
 import management.Data;

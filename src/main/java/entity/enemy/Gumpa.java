@@ -1,4 +1,4 @@
 package entity.enemy;
 
-public class Gumpa {
+public class Gumpa extends EnemyObject {
 }

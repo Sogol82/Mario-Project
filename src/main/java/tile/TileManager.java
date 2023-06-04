@@ -1,7 +1,7 @@
 package tile;
 
 import entity.enemy.Plant;
-import entity.Shot;
+import entity.player.Shot;
 import management.Data;
 
 import javax.imageio.ImageIO;

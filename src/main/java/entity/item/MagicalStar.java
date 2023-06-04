@@ -2,7 +2,7 @@ package entity.item;
 
 import entity.Entity;
 
-public class MagicalStar extends Item {
+public class MagicalStar extends ItemObject {
     public MagicalStar() {
         getItemImage("/marioImages/Star.png");
     }

@@ -1,4 +1,5 @@
 package entity.block;
 
-public class CoinBlock {
+public class CoinBlock extends BlockObject {
+
 }

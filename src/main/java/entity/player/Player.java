@@ -2,7 +2,6 @@ package entity.player;
 
 import entity.Entity;
 import entity.enemy.Plant;
-import entity.Shot;
 import management.Data;
 
 import javax.imageio.ImageIO;

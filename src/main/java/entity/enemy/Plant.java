@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Plant extends Entity {
+public class Plant extends EnemyObject {
     int upHeight = 3 * Data.tileSize;
     int firstY;
     public int[] plantsTile;
