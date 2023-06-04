@@ -1,6 +1,7 @@
 package entity.player;
 
 import entity.enemy.Plant;
+import entity.item.Coin;
 import game.GamePanel;
 import game.KeyHandler;
 import management.Data;
@@ -202,7 +203,9 @@ public class MegaMario extends Player {
             }
 
             if(!keyHandler.goDownPipe) {
-                gp.collisionChecker.checkCoinCollision(this);
+                for(Coin coin : gp.coinsList) {
+                    gp.collisionChecker.checkCoinCollision(this,coin);
+                }
                 ///////////////////////////////////////////////////////////////
                 if( direction.equals("upRight") ||  direction.equals("upLeft")) {
                     gp.collisionChecker.checkBlockCollision(this);

@@ -2,6 +2,7 @@ package entity.player;
 
 import entity.Entity;
 import entity.enemy.Plant;
+import entity.item.Coin;
 import management.Data;
 
 import javax.imageio.ImageIO;
@@ -216,7 +217,9 @@ public class Player extends Entity implements PlayerI {
             }
 
             if(!keyHandler.goDownPipe) {
-                gp.collisionChecker.checkCoinCollision(this);
+                for(Coin coin : gp.coinsList) {
+                    gp.collisionChecker.checkCoinCollision(this,coin);
+                }
                 fallUpdate();
                 plantCollisionUpdate();
                 gravityUpdate();

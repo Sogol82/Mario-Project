@@ -4,6 +4,7 @@ import entity.enemy.Plant;
 import entity.item.Coin;
 import entity.player.FireMario;
 import entity.player.Player;
+import entity.player.Shot;
 import management.*;
 import pages.LoadGames;
 import tile.TileManager;
@@ -122,9 +123,22 @@ public class GamePanel extends JPanel implements Runnable{
             plant.update();
         }
 
+        coinUpdate();
+
         if(keyHandler.exitGame || player.hearts == 0) {
             endGame();
         }
+    }
+
+    public void coinUpdate() {
+        //////////////////////////////check shots
+        ArrayList<Coin> newCoins = new ArrayList<>();
+        for(Coin coin : coinsList) {
+            if(!coin.isEaten) {
+                newCoins.add(coin);
+            }
+        }
+        coinsList = newCoins;
     }
     public void endGame() {
         score += seconds;

@@ -162,90 +162,189 @@ public class CollisionChecker {
         }
         return false;
     }
-    public void checkCoinCollision(Entity entity) {
+
+    public void checkCoinCollision(Entity entity, Coin coin) {
+
         checkTile(entity);
+        int coinSolidLeft = coin.x + coin.solidArea.x;
+        int coinSolidRight = coin.x + coin.solidArea.x + coin.solidArea.width;
+        int coinSolidTop = coin.y + coin.solidArea.y;
+        int coinSolidBottom = coin.y + coin.solidArea.y + coin.solidArea.height;
 
-        int coinSolidLeft;
-        int coinSolidRight;
-        int coinSolidTop;
-        int coinSolidBottom;
-
-        if(gp.tileManager.mapTileNum[entityLeftCol][entityTopRow] == 8) {
-            coinSolidRight = (entityLeftCol * Data.tileSize) + Data.coinX + Data.coinWidth;
-            coinSolidBottom = (entityTopRow * Data.tileSize) + Data.coinY + Data.coinHeight;
-
-            if( ( (coinSolidRight - entity.solidArea.width <= entitySolidLeft) && (entitySolidLeft <= coinSolidRight) ) &&
-                    ( (coinSolidBottom - entity.solidArea.height <= entitySolidTop) && (entitySolidTop <= coinSolidBottom) ) ) {
-                gp.tileManager.mapTileNum[entityLeftCol][entityTopRow] = 9;
-                gp.coins++;
-                gp.score += 10;
-            }
+        if( ( ((coinSolidLeft <= entitySolidLeft) && (entitySolidLeft <= coinSolidRight)) ||
+                ((coinSolidLeft <= entitySolidRight) && (entitySolidRight <= coinSolidRight)) ) &&
+                ( ((coinSolidTop <= entitySolidBottom) && (entitySolidBottom <= coinSolidBottom)) ||
+                        ((coinSolidTop <= entitySolidTop) && (entitySolidTop <= coinSolidBottom)) ) ) {
+            coin.isEaten = true;
+            gp.coins++;
+            gp.score += 10;
         }
-
-        if(gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow] == 8) {
-            coinSolidRight = (entityLeftCol * Data.tileSize) + Data.coinX + Data.coinWidth;
-            coinSolidTop = (entityBottomRow * Data.tileSize) + Data.coinY;
-
-            if( ( (coinSolidRight - entity.solidArea.width <= entitySolidLeft) && (entitySolidLeft <= coinSolidRight) ) &&
-                    ( (coinSolidTop <= entitySolidBottom) && (entitySolidBottom <= coinSolidTop + entity.solidArea.height) ) ) {
-                gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow] = 9;
-                gp.coins++;
-                gp.score += 10;
-            }
-        }
-
-        if(gp.tileManager.mapTileNum[entityRightCol][entityTopRow] == 8) {
-            coinSolidLeft = (entityRightCol * Data.tileSize) + Data.coinX;
-            coinSolidBottom = (entityTopRow * Data.tileSize) + Data.coinY + Data.coinHeight;
-
-            if( ( (coinSolidLeft <= entitySolidRight) && (entitySolidRight <= coinSolidLeft + entity.solidArea.width) ) &&
-                    (  (coinSolidBottom - entity.solidArea.height <= entitySolidTop) && (entitySolidTop <= coinSolidBottom) ) ) {
-                gp.tileManager.mapTileNum[entityRightCol][entityTopRow] = 9;
-                gp.coins++;
-                gp.score += 10;
-            }
-        }
-
-        if(gp.tileManager.mapTileNum[entityRightCol][entityBottomRow] == 8) {
-            coinSolidLeft = (entityRightCol * Data.tileSize) + Data.coinX;
-            coinSolidTop = (entityBottomRow * Data.tileSize) + Data.coinY;
-
-            if( ( (coinSolidLeft <= entitySolidRight) && (entitySolidRight <= coinSolidLeft + entity.solidArea.width) ) &&
-                    ( (coinSolidTop <= entitySolidBottom) && (entitySolidBottom <= coinSolidTop + entity.solidArea.height) ) ) {
-                gp.tileManager.mapTileNum[entityRightCol][entityBottomRow] = 9;
-                gp.coins++;
-                gp.score += 10;
-            }
-        }
+//        return false;
 
 
 
-        ////////////////////////////baraye mega va fire
-
-        if(gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow-1] == 8) {
-            coinSolidRight = (entityLeftCol * Data.tileSize) + Data.coinX + Data.coinWidth;
-            coinSolidTop = ((entityBottomRow-1) * Data.tileSize) + Data.coinY;
-
-            if( ( (coinSolidRight - entity.solidArea.width <= entitySolidLeft) && (entitySolidLeft <= coinSolidRight) ) &&
-                    ( (coinSolidTop <= entitySolidBottom-1) && (entitySolidBottom-1 <= coinSolidTop + entity.solidArea.height) ) ) {
-                gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow-1] = 9;
-                gp.coins++;
-                gp.score += 10;
-            }
-        }
-
-        if(gp.tileManager.mapTileNum[entityRightCol][entityBottomRow-1] == 8) {
-            coinSolidLeft = (entityRightCol * Data.tileSize) + Data.coinX;
-            coinSolidTop = ((entityBottomRow-1) * Data.tileSize) + Data.coinY;
-
-            if( ( (coinSolidLeft <= entitySolidRight) && (entitySolidRight <= coinSolidLeft + entity.solidArea.width) ) &&
-                    ( (coinSolidTop <= entitySolidBottom-1) && (entitySolidBottom-1 <= coinSolidTop + entity.solidArea.height) ) ) {
-                gp.tileManager.mapTileNum[entityRightCol][entityBottomRow-1] = 9;
-                gp.coins++;
-                gp.score += 10;
-            }
-        }
+//        checkTile(entity);
+//
+//        if(gp.tileManager.mapTileNum[entityLeftCol][entityTopRow] == 8) {
+//            coinSolidRight = (entityLeftCol * Data.tileSize) + Data.coinX + Data.coinWidth;
+//            coinSolidBottom = (entityTopRow * Data.tileSize) + Data.coinY + Data.coinHeight;
+//
+//            if( ( (coinSolidRight - entity.solidArea.width <= entitySolidLeft) && (entitySolidLeft <= coinSolidRight) ) &&
+//                    ( (coinSolidBottom - entity.solidArea.height <= entitySolidTop) && (entitySolidTop <= coinSolidBottom) ) ) {
+//                gp.tileManager.mapTileNum[entityLeftCol][entityTopRow] = 9;
+//                gp.coins++;
+//                gp.score += 10;
+//            }
+//        }
+//
+//        if(gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow] == 8) {
+//            coinSolidRight = (entityLeftCol * Data.tileSize) + Data.coinX + Data.coinWidth;
+//            coinSolidTop = (entityBottomRow * Data.tileSize) + Data.coinY;
+//
+//            if( ( (coinSolidRight - entity.solidArea.width <= entitySolidLeft) && (entitySolidLeft <= coinSolidRight) ) &&
+//                    ( (coinSolidTop <= entitySolidBottom) && (entitySolidBottom <= coinSolidTop + entity.solidArea.height) ) ) {
+//                gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow] = 9;
+//                gp.coins++;
+//                gp.score += 10;
+//            }
+//        }
+//
+//        if(gp.tileManager.mapTileNum[entityRightCol][entityTopRow] == 8) {
+//            coinSolidLeft = (entityRightCol * Data.tileSize) + Data.coinX;
+//            coinSolidBottom = (entityTopRow * Data.tileSize) + Data.coinY + Data.coinHeight;
+//
+//            if( ( (coinSolidLeft <= entitySolidRight) && (entitySolidRight <= coinSolidLeft + entity.solidArea.width) ) &&
+//                    (  (coinSolidBottom - entity.solidArea.height <= entitySolidTop) && (entitySolidTop <= coinSolidBottom) ) ) {
+//                gp.tileManager.mapTileNum[entityRightCol][entityTopRow] = 9;
+//                gp.coins++;
+//                gp.score += 10;
+//            }
+//        }
+//
+//        if(gp.tileManager.mapTileNum[entityRightCol][entityBottomRow] == 8) {
+//            coinSolidLeft = (entityRightCol * Data.tileSize) + Data.coinX;
+//            coinSolidTop = (entityBottomRow * Data.tileSize) + Data.coinY;
+//
+//            if( ( (coinSolidLeft <= entitySolidRight) && (entitySolidRight <= coinSolidLeft + entity.solidArea.width) ) &&
+//                    ( (coinSolidTop <= entitySolidBottom) && (entitySolidBottom <= coinSolidTop + entity.solidArea.height) ) ) {
+//                gp.tileManager.mapTileNum[entityRightCol][entityBottomRow] = 9;
+//                gp.coins++;
+//                gp.score += 10;
+//            }
+//        }
+//
+//
+//
+//        ////////////////////////////baraye mega va fire
+//
+//        if(gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow-1] == 8) {
+//            coinSolidRight = (entityLeftCol * Data.tileSize) + Data.coinX + Data.coinWidth;
+//            coinSolidTop = ((entityBottomRow-1) * Data.tileSize) + Data.coinY;
+//
+//            if( ( (coinSolidRight - entity.solidArea.width <= entitySolidLeft) && (entitySolidLeft <= coinSolidRight) ) &&
+//                    ( (coinSolidTop <= entitySolidBottom-1) && (entitySolidBottom-1 <= coinSolidTop + entity.solidArea.height) ) ) {
+//                gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow-1] = 9;
+//                gp.coins++;
+//                gp.score += 10;
+//            }
+//        }
+//
+//        if(gp.tileManager.mapTileNum[entityRightCol][entityBottomRow-1] == 8) {
+//            coinSolidLeft = (entityRightCol * Data.tileSize) + Data.coinX;
+//            coinSolidTop = ((entityBottomRow-1) * Data.tileSize) + Data.coinY;
+//
+//            if( ( (coinSolidLeft <= entitySolidRight) && (entitySolidRight <= coinSolidLeft + entity.solidArea.width) ) &&
+//                    ( (coinSolidTop <= entitySolidBottom-1) && (entitySolidBottom-1 <= coinSolidTop + entity.solidArea.height) ) ) {
+//                gp.tileManager.mapTileNum[entityRightCol][entityBottomRow-1] = 9;
+//                gp.coins++;
+//                gp.score += 10;
+//            }
+//        }
     }
+//    public void checkCoinCollision(Entity entity) {
+//        checkTile(entity);
+//
+//        int coinSolidLeft;
+//        int coinSolidRight;
+//        int coinSolidTop;
+//        int coinSolidBottom;
+//
+//        if(gp.tileManager.mapTileNum[entityLeftCol][entityTopRow] == 8) {
+//            coinSolidRight = (entityLeftCol * Data.tileSize) + Data.coinX + Data.coinWidth;
+//            coinSolidBottom = (entityTopRow * Data.tileSize) + Data.coinY + Data.coinHeight;
+//
+//            if( ( (coinSolidRight - entity.solidArea.width <= entitySolidLeft) && (entitySolidLeft <= coinSolidRight) ) &&
+//                    ( (coinSolidBottom - entity.solidArea.height <= entitySolidTop) && (entitySolidTop <= coinSolidBottom) ) ) {
+//                gp.tileManager.mapTileNum[entityLeftCol][entityTopRow] = 9;
+//                gp.coins++;
+//                gp.score += 10;
+//            }
+//        }
+//
+//        if(gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow] == 8) {
+//            coinSolidRight = (entityLeftCol * Data.tileSize) + Data.coinX + Data.coinWidth;
+//            coinSolidTop = (entityBottomRow * Data.tileSize) + Data.coinY;
+//
+//            if( ( (coinSolidRight - entity.solidArea.width <= entitySolidLeft) && (entitySolidLeft <= coinSolidRight) ) &&
+//                    ( (coinSolidTop <= entitySolidBottom) && (entitySolidBottom <= coinSolidTop + entity.solidArea.height) ) ) {
+//                gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow] = 9;
+//                gp.coins++;
+//                gp.score += 10;
+//            }
+//        }
+//
+//        if(gp.tileManager.mapTileNum[entityRightCol][entityTopRow] == 8) {
+//            coinSolidLeft = (entityRightCol * Data.tileSize) + Data.coinX;
+//            coinSolidBottom = (entityTopRow * Data.tileSize) + Data.coinY + Data.coinHeight;
+//
+//            if( ( (coinSolidLeft <= entitySolidRight) && (entitySolidRight <= coinSolidLeft + entity.solidArea.width) ) &&
+//                    (  (coinSolidBottom - entity.solidArea.height <= entitySolidTop) && (entitySolidTop <= coinSolidBottom) ) ) {
+//                gp.tileManager.mapTileNum[entityRightCol][entityTopRow] = 9;
+//                gp.coins++;
+//                gp.score += 10;
+//            }
+//        }
+//
+//        if(gp.tileManager.mapTileNum[entityRightCol][entityBottomRow] == 8) {
+//            coinSolidLeft = (entityRightCol * Data.tileSize) + Data.coinX;
+//            coinSolidTop = (entityBottomRow * Data.tileSize) + Data.coinY;
+//
+//            if( ( (coinSolidLeft <= entitySolidRight) && (entitySolidRight <= coinSolidLeft + entity.solidArea.width) ) &&
+//                    ( (coinSolidTop <= entitySolidBottom) && (entitySolidBottom <= coinSolidTop + entity.solidArea.height) ) ) {
+//                gp.tileManager.mapTileNum[entityRightCol][entityBottomRow] = 9;
+//                gp.coins++;
+//                gp.score += 10;
+//            }
+//        }
+//
+//
+//
+//        ////////////////////////////baraye mega va fire
+//
+//        if(gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow-1] == 8) {
+//            coinSolidRight = (entityLeftCol * Data.tileSize) + Data.coinX + Data.coinWidth;
+//            coinSolidTop = ((entityBottomRow-1) * Data.tileSize) + Data.coinY;
+//
+//            if( ( (coinSolidRight - entity.solidArea.width <= entitySolidLeft) && (entitySolidLeft <= coinSolidRight) ) &&
+//                    ( (coinSolidTop <= entitySolidBottom-1) && (entitySolidBottom-1 <= coinSolidTop + entity.solidArea.height) ) ) {
+//                gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow-1] = 9;
+//                gp.coins++;
+//                gp.score += 10;
+//            }
+//        }
+//
+//        if(gp.tileManager.mapTileNum[entityRightCol][entityBottomRow-1] == 8) {
+//            coinSolidLeft = (entityRightCol * Data.tileSize) + Data.coinX;
+//            coinSolidTop = ((entityBottomRow-1) * Data.tileSize) + Data.coinY;
+//
+//            if( ( (coinSolidLeft <= entitySolidRight) && (entitySolidRight <= coinSolidLeft + entity.solidArea.width) ) &&
+//                    ( (coinSolidTop <= entitySolidBottom-1) && (entitySolidBottom-1 <= coinSolidTop + entity.solidArea.height) ) ) {
+//                gp.tileManager.mapTileNum[entityRightCol][entityBottomRow-1] = 9;
+//                gp.coins++;
+//                gp.score += 10;
+//            }
+//        }
+//    }
     public boolean checkSecretPipe(Entity entity) {
         checkTile(entity);
         entityBottomRow = (entitySolidBottom + entity.jumpSpeed) / Data.tileSize;

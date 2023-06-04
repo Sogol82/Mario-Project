@@ -1,6 +1,7 @@
 package entity.player;
 
 import entity.enemy.Plant;
+import entity.item.Coin;
 import management.Data;
 
 import javax.imageio.ImageIO;
@@ -200,7 +201,9 @@ public class MiniMario extends Player {
             }
 
             if(!keyHandler.goDownPipe) {
-                gp.collisionChecker.checkCoinCollision(this);
+                for(Coin coin : gp.coinsList) {
+                    gp.collisionChecker.checkCoinCollision(this,coin);
+                }
                 fallUpdate();
                 plantCollisionUpdate();
                 gravityUpdate();
