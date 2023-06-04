@@ -6,4 +6,9 @@ public class MagicalStar extends ItemObject {
     public MagicalStar() {
         getItemImage("/marioImages/Star.png");
     }
+
+    @Override
+    public void moveUpdate() {
+
+    }
 }

@@ -11,7 +11,8 @@ public interface ItemI {
 //    void deadUpdate();
 //    void plantCollisionUpdate();
     void gravityUpdate();
-    void draw(Graphics2D g2);
+    void draw(Graphics2D g2, int x);
     void moveForward();
     void moveBackward();
+    void moveUpdate();
 }

@@ -2,6 +2,8 @@ package game;
 
 import entity.Entity;
 import entity.enemy.Plant;
+import entity.item.Coin;
+import entity.player.Player;
 import management.Data;
 
 import java.awt.*;
@@ -133,6 +135,9 @@ public class CollisionChecker {
         int tileNum2 = gp.tileManager.mapTileNum[entityRightCol][entityBottomRow];
 
         if((tileNum1 == 9 || !gp.tileManager.tile[tileNum1].collision) && (tileNum2 == 9 || !gp.tileManager.tile[tileNum2].collision)) {
+//            if(entity instanceof Coin) {
+//                System.out.println("true");
+//            }
             return true;
         }
         return false;
@@ -296,9 +301,9 @@ public class CollisionChecker {
         g2.setColor(Color.magenta);
         g2.drawRect(entityLeftCol*Data.tileSize,(entityBottomRow-1)*Data.tileSize,Data.tileSize,Data.tileSize);
 
-        System.out.println(gp.tileManager.mapTileNum[entityRightCol][entityTopRow] + " "
-                + gp.tileManager.mapTileNum[entityRightCol][entityBottomRow] + " "
-                + gp.tileManager.mapTileNum[entityRightCol][entityBottomRow-1]);
+//        System.out.println(gp.tileManager.mapTileNum[entityRightCol][entityTopRow] + " "
+//                + gp.tileManager.mapTileNum[entityRightCol][entityBottomRow] + " "
+//                + gp.tileManager.mapTileNum[entityRightCol][entityBottomRow-1]);
 
 
         ////////////check right
@@ -312,9 +317,9 @@ public class CollisionChecker {
         g2.setColor(Color.yellow);
         g2.drawRect(entityRightCol*Data.tileSize,(entityBottomRow-1)*Data.tileSize,Data.tileSize,Data.tileSize);
 
-        System.out.println(gp.tileManager.mapTileNum[entityLeftCol][entityTopRow] + " "
-                + gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow] + " "
-                + gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow-1]);
+//        System.out.println(gp.tileManager.mapTileNum[entityLeftCol][entityTopRow] + " "
+//                + gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow] + " "
+//                + gp.tileManager.mapTileNum[entityLeftCol][entityBottomRow-1]);
 
     }
 }

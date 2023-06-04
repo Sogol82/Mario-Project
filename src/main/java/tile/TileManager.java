@@ -1,6 +1,7 @@
 package tile;
 
 import entity.enemy.Plant;
+import entity.item.Coin;
 import entity.player.Shot;
 import management.Data;
 
@@ -104,7 +105,19 @@ public class TileManager {
                         thisPlant.plantsTile[0] = column;
                         thisPlant.plantsTile[1] = row;
                         gp.plants.add(thisPlant);
+                        //////////////////coins
+                    } else if(mapTileNum[column][row] == 8) {
+                        Coin thisCoin = new Coin(column * Data.tileSize, (row + 1) * Data.tileSize,gp);
+//                        thisCoin.realX = column * Data.tileSize;
+                        thisCoin.coinsTile = new int[2];
+                        thisCoin.coinsTile[0] = column;
+                        thisCoin.coinsTile[1] = row;
+                        gp.coinsList.add(thisCoin);
+
+
+                        mapTileNum[column][row] = 9;
                     }
+
 
                     column++;
                 }
@@ -136,13 +149,21 @@ public class TileManager {
                 int levelX = levelColumn * Data.tileSize;
                 if(levelX - Data.tileSize < Data.screenWidth) {
 
-                    ///////////////////////////////////////////////////////////////////////////////
+                    ///////////////////////////////////////////////////////////////////////////////plants drawing
                     if(mapTileNum[levelColumn][levelRow] == 0) {
                         for(Plant plant : gp.plants) {
                             if(plant.plantsTile[0]==levelColumn && plant.plantsTile[1]==levelRow) {
                                 plant.draw(g2,levelX);
                                 plant.x = levelX;
                             }
+                        }
+                    }
+
+                    ////////////////////////////////////////////////////////////////////////////coins drawing
+                    for(Coin coin : gp.coinsList) {
+                        if(coin.coinsTile[0]==levelColumn) {
+                            coin.draw(g2,levelX);
+                            coin.x = levelX;
                         }
                     }
 
@@ -177,7 +198,7 @@ public class TileManager {
                 int drawX = levelX - Data.maxLevelWidth + Data.screenWidth;
                 if(levelX + Data.tileSize > Data.maxLevelWidth - Data.screenWidth) {
 
-                    ///////////////////////////////////////////////////////////////////////////////
+                    ///////////////////////////////////////////////////////////////////////////////plants drawing
                     if(mapTileNum[levelColumn][levelRow] == 0) {
                         for(Plant plant : gp.plants) {
                             if(plant.plantsTile[0]==levelColumn && plant.plantsTile[1]==levelRow) {
@@ -194,6 +215,15 @@ public class TileManager {
                                 g2.drawImage(tile[mapTileNum[levelColumn-1][levelRow]].image,drawX-Data.tileSize,y, Data.tileSize, Data.tileSize,null);
                                 g2.drawImage(tile[mapTileNum[levelColumn-1][levelRow+1]].image,drawX-Data.tileSize,y+Data.tileSize, Data.tileSize, Data.tileSize,null);
                             }
+                        }
+                    }
+
+
+                    ///////////////////////////////////////////////////////////////////////////////coins drawing
+                    for(Coin coin : gp.coinsList) {
+                        if(coin.coinsTile[0]==levelColumn) {
+                            coin.draw(g2,drawX);
+                            coin.x = drawX;
                         }
                     }
 
@@ -230,7 +260,7 @@ public class TileManager {
                 int drawX = levelX - gp.player.x + gp.player.screenX;
                 if(levelX + Data.tileSize > gp.player.x - gp.player.screenX && levelX - Data.tileSize < gp.player.x - gp.player.screenX + Data.screenWidth) {
 
-                    ///////////////////////////////////////////////////////////////////////////////
+                    ///////////////////////////////////////////////////////////////////////////////plants drawing
                     if(mapTileNum[levelColumn][levelRow] == 0) {
                         for(Plant plant : gp.plants) {
                             if(plant.plantsTile[0]==levelColumn && plant.plantsTile[1]==levelRow) {
@@ -247,6 +277,15 @@ public class TileManager {
                                 g2.drawImage(tile[mapTileNum[levelColumn-1][levelRow]].image,drawX-Data.tileSize,y, Data.tileSize, Data.tileSize,null);
                                 g2.drawImage(tile[mapTileNum[levelColumn-1][levelRow+1]].image,drawX-Data.tileSize,y+Data.tileSize, Data.tileSize, Data.tileSize,null);
                             }
+                        }
+                    }
+
+
+                    ///////////////////////////////////////////////////////////////////////////////coins drawing
+                    for(Coin coin : gp.coinsList) {
+                        if(coin.coinsTile[0]==levelColumn) {
+                            coin.draw(g2,drawX);
+                            coin.x = drawX;
                         }
                     }
 

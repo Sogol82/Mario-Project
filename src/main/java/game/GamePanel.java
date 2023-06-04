@@ -1,6 +1,7 @@
 package game;
 
 import entity.enemy.Plant;
+import entity.item.Coin;
 import entity.player.FireMario;
 import entity.player.Player;
 import management.*;
@@ -28,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable{
     public CollisionChecker collisionChecker;
     public Player player;
     public List<Plant> plants;
+    public List<Coin> coinsList;
     public Timer timer = new Timer(1000, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -40,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable{
     public GamePanel(int id) {
         playerID = id;
         plants = new ArrayList<>();
+        coinsList = new ArrayList<>();
         tileManager = new TileManager(this);
         keyHandler = new KeyHandler();
         collisionChecker = new CollisionChecker(this);

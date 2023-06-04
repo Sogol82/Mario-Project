@@ -6,4 +6,9 @@ public class MagicalFlower extends ItemObject {
     public MagicalFlower() {
         getItemImage("/marioImages/MagicalFlower.png");
     }
+
+    @Override
+    public void moveUpdate() {
+
+    }
 }
